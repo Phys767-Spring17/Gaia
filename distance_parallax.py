@@ -88,10 +88,9 @@ print ("Min value on Z: ", min(Z))
 
 plt.scatter(X,Y,Z,marker=".")
 
-ax.set_xlabel('Distance X')
-ax.set_ylabel('Distance Y')
-ax.set_zlabel('Distance Z')
+ax.set_xlabel('Distance X [pc]')
+ax.set_ylabel('Distance Y [pc]')
+ax.set_zlabel('Distance Z [pc]')
 plt.title('Distribution of All Valid Data')
 
 plt.show()
-plt.savefig('3D Distribution.png')
