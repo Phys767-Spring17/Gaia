@@ -83,7 +83,7 @@ print ("Min value on Y: ", min(Y))
 print ("Max value on Z: ", max(Z))
 print ("Min value on Z: ", min(Z))
 
-ax.set_zlim(-10**-10,10**-10)
+#ax.set_zlim(-10**-10,10**-10)
 
 plt.scatter(X,Y,Z,marker=".")
 
