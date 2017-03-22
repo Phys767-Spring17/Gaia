@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import astropy.io.fits as fits
 import sys, os, time, string, math, subprocess
+from scipy.stats import gaussian_kde
 
 #================ input and select data with low noise ===================
 
@@ -67,27 +68,46 @@ declination=data_list.data['dec'] #in degree
 ra=right_ascension[highSNindices]*(3.14/180) #in radian
 dec=declination[highSNindices]*(3.14/180) #in radian
 
-#plot with ra, dec, and distance
-fig=plt.figure()
-ax=fig.add_subplot(111,projection='3d')
-
 # Express the mesh in the cartesian system.
 X=distance*1000*np.cos(dec)*np.cos(ra) #in parsec = 3.262 light-years
 Y=distance*1000*np.cos(dec)*np.sin(ra) #in parsec = 3.262 light-years
 Z=distance*1000*np.sin(dec) #in parsec = 3.262 light-years
 
 
-print ("Max value on X: ", max(X))
-print ("Min value on X: ", min(X))
-print ("Max value on Y: ", max(Y))
-print ("Min value on Y: ", min(Y))
-print ("Max value on Z: ", max(Z))
-print ("Min value on Z: ", min(Z))
+print ("Max value on X: ", X.max())
+print ("Min value on X: ", X.min())
+print ("Max value on Y: ", Y.max())
+print ("Min value on Y: ", Y.min())
+print ("Max value on Z: ", Z.max())
+print ("Min value on Z: ", Z.min())
 
-#ax.set_zlim(-10**-10,10**-10)
+#plot with ra, dec, and distance
+fig=plt.figure()
+ax=fig.add_subplot(111,projection='3d')
 
 
-plt.scatter(X,Y,Z,marker=".")
+#================ visualize stars' density with color in 3D plot of all valid data ===================
+
+
+#calculate the point density
+#XYZ = np.vstack([X,Y,Z])
+#C = gaussian_kde(XYZ)(XYZ)(XYZ)
+
+#fig, ax = plt.subplots()
+#plt.scatter(X, Y, Z, c=C, s=100, edgecolor='')
+#plt.show()
+
+#ax.set_xlim(-10**5,10**5)
+#ax.set_ylim(-10**5,10**5)
+#ax.set_zlim(-10**5,10**5)
+
+
+#plt.scatter(X,Y,Z,marker=".")
+# The above line Produces a disk instead of sphere. With high signal to noise data, far away stars are not included,
+# and the scale is not big enough to show the shape of the Milky Way (diameter 30kpc, thickness 0.3kpc)
+
+ax.scatter(X,Y,Z, 'ob', alpha=0.05, lw=0)
+# The above line works almost as ax.plot(X,Y,Z, 'ob', alpha=0.05, lw=0) or plt.plot(X,Y,Z, 'ob', alpha=0.05, lw=0)
 
 ax.set_xlabel('Distance X [pc]')
 ax.set_ylabel('Distance Y [pc]')
