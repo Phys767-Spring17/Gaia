@@ -18,6 +18,7 @@ parallax_error=data_list.data['parallax_error'] #error
 #calculate ratio
 ratio=parallax/parallax_error
 
+
 #select data that we want
 highSNindices = ratio > 16. #The ones with high signal to noise
 
