@@ -50,6 +50,7 @@ highSNindices = ratio > 16.
 distance=1./parallax[highSNindices] #in Kpc
 
 #Calculate transverse velocity in RA and DEC then in real space
+
 #transv_ra=4.74*propermotion_ra[highSNindices]*distance #km/s
 #transv_dec=4.74*propermotion_dec[highSNindices]*distance #km/s
 
@@ -66,7 +67,7 @@ j_k=j_band[highSNindices]-k_band[highSNindices]
 distance_pc=distance*10**3.
 
 
-absolute_mag=g_band[highSNindices]-(5.*(np.log10(distance_pc)-1))
+absolute_mag=j_band[highSNindices]-(5.*(np.log10(distance_pc)-1))
 
 #plotting
 
@@ -80,7 +81,7 @@ ax1=fig1.add_axes(rect1)
 
 ax1.plot(j_k,absolute_mag, "o")
 ax1.invert_yaxis()
-ax1.set_ylabel("Absolute Magnitude, G")
+ax1.set_ylabel("Absolute Magnitude, J")
 ax1.set_xlabel("J-K")
 plt.show()
 
