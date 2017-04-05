@@ -13,7 +13,6 @@ file=fits.open('tgas-source.fits')
 data_list=file[1]
 
 
-
 #chose parallax data
 parallax=data_list.data['parallax'] #in mas(milliarcsecond) = 0.001 arcsecond = 1/3600000 degree
 parallax_error=data_list.data['parallax_error'] #error
