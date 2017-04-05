@@ -82,13 +82,12 @@ print ("Min value on Y: ", Y.min())
 print ("Max value on Z: ", Z.max())
 print ("Min value on Z: ", Z.min())
 
-#plot with ra, dec, and distance
-fig=plt.figure()
-ax=fig.add_subplot(111,projection='3d')
-
 
 #================ visualize stars' density with color in 3D plot of all valid data ===================
 
+#plot with ra, dec, and distance
+fig=plt.figure()
+ax=fig.add_subplot(111,projection='3d')
 
 #calculate the point density
 #XYZ = np.vstack([X,Y,Z])
