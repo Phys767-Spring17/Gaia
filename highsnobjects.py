@@ -22,26 +22,25 @@ parallax=data_list.data['parallax'] #in mas
 parallax_error=data_list.data['parallax_error'] #error
 
 #proper motion
-propermotion_ra=data_list.data['pmra']
-propermotion_dec=data_list.data['pmdec']
+#propermotion_ra=data_list.data['pmra']
+#propermotion_dec=data_list.data['pmdec']
 
 #RA and DEC
-ra=data_list.data['ra']
-dec=data_list.data['dec']
+#ra=data_list.data['ra']
+#dec=data_list.data['dec']
 
 
 #magnitudes
-g_band=data_list.data['phot_g_mean_mag']
+#g_band=data_list.data['phot_g_mean_mag']
 j_band=data_list_2.data['j_mag']
 k_band=data_list_2.data['k_mag']
-h_band=data_list_2.data['h_mag']
-
+#h_band=data_list_2.data['h_mag']
 
 #calculate SN ratio
 ratio=parallax/parallax_error
 
 #select high SN data that we want
-highSNindices = ratio > 16.
+highSNindices = ratio > 64.
 
 #locations of data we want
 #np.where(highSNindices)
@@ -63,11 +62,19 @@ distance=1./parallax[highSNindices] #in Kpc
 #calcilate color G-J
 j_k=j_band[highSNindices]-k_band[highSNindices]
 
+equalzero= (j_k!=0.) & (k_band[highSNindices]!=0.)
+
+j_select=j_band[highSNindices][equalzero]
+
+k_select=k_band[highSNindices][equalzero]
+
+j_kprime=j_select-k_select
+
 #calculate absolute magnitude
-distance_pc=distance*10**3.
+distance_pc=distance[equalzero]*10**3.
 
 
-absolute_mag=j_band[highSNindices]-(5.*(np.log10(distance_pc)-1))
+absolute_mag=j_select-(5.*(np.log10(distance_pc)-1))
 
 #plotting
 
@@ -79,11 +86,13 @@ rect1=0.1,0.1,0.75,0.75
 fig1=plt.figure(1)
 ax1=fig1.add_axes(rect1)
 
-ax1.plot(j_k,absolute_mag, "o")
+ax1.plot(j_kprime,absolute_mag, "o", lw=0, markersize=1)
 ax1.invert_yaxis()
 ax1.set_ylabel("Absolute Magnitude, J")
 ax1.set_xlabel("J-K")
 plt.show()
+
+import pdb; pdb.set_trace()
 
 #distance distribution
 #plt.hist(distance,bins=100,log=True)
