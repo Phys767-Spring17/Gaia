@@ -53,6 +53,17 @@ transv_dec=4.74*pmdec[highSNindices]*distance*10**3 #m/s
 transverse_vsqared=transv_ra**2+transv_dec**2
 transverse_v=transverse_vsqared**(.5)
 
+#define the function "transverse_velocity()" for test on Travis
+def transverse_velocity(number):
+    v=transverse_v[number]
+
+    if v > 0:
+        return 'Transverse velocity bigger than 0'
+    elif v < 0:
+        return 'Transverse velocity less than 0'
+    elif v = 0:
+        return 'Transverse velocity is 0'
+
 #================ plot distance, velocity ===================
 '''
 #plotting
