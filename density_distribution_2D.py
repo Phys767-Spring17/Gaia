@@ -195,7 +195,11 @@ ydat1 = coor2D.Y[ind][hhsub < thresh]
 hh[hh < thresh] = np.nan # fill the areas with low density by NaNs
 # Make the plot
 plt.imshow(np.flipud(hh.T),cmap='jet',extent=np.array(xyrange).flatten(), interpolation='none', origin='upper')
-plt.colorbar()
+clb=plt.colorbar()
+#clb.ax.yaxis.tick_right()
+clb.ax.set_yticklabels(['10','20','30','40','50','60','70','80','90'],fontsize=10)
+clb.set_label('Density: number per bin (2pc*2pc)', rotation=270, fontsize=12)
+clb.ax.yaxis.set_label_coords(3.3, 0.5)
 plt.plot(xdat1, ydat1, '.',color='darkblue')
 #plt.title('Density Distribution of Stars (with High Signal to Noise Ratio)', fontsize=20)
 plt.xlabel('Position X [pc]', fontsize = 16)
