@@ -40,7 +40,7 @@ highSNindices = ratio > 16. #The ones with high signal to noise
 #np.where(highSNindices)
 
 #distances we want from valid data
-distance=1./parallax[highSNindices] #in Kpc = 1000 parsecs = 3262 light-years
+distance=1./parallax#[highSNindices] in Kpc = 1000 parsecs = 3262 light-years'''
 
 #================ calculate velocity from proper motion ===================
 
@@ -49,13 +49,15 @@ pmra=data1.data_list.data['pmra'] #in mas/year
 pmdec=data1.data_list.data['pmdec'] #in mas/year
 
 #transverse velocity v = 4.74*(proper motion angular velocity[arcsec/year])*distance[parsec]*10**3 #m/s
-transv_ra=4.74*pmra[highSNindices]*distance*10**3 #m/s
-transv_dec=4.74*pmdec[highSNindices]*distance*10**3 #m/s
+transv_ra=4.74*pmra*distance*10**3 #[highSNindices]m/s
+transv_dec=4.74*pmdec*distance*10**3 #[highSNindices]m/s
+
 
 transverse_vsqared=transv_ra**2+transv_dec**2
 transverse_v=transverse_vsqared**(.5)
 
-#define the function "transverse_velocity()" for test on Travis
+# (04/19/2017) pytest
+# define the function "transverse_velocity()" for test on Travis
 def transverse_velocity(number):
     v=transverse_v[number]
 
@@ -89,10 +91,11 @@ plt.savefig('highsnVelocities.png')
 #right ascension and declination
 right_ascension=data1.data_list.data['ra'] #in degree
 declination=data1.data_list.data['dec'] #in degree
-ra=right_ascension[highSNindices]*(3.14/180) #in radian
-dec=declination[highSNindices]*(3.14/180) #in radian
+ra=right_ascension*(3.14/180)#[highSNindices] in radian
+dec=declination*(3.14/180)#[highSNindices] in radian
 
-#Create a class to access the coordinates later for 3D and 2D
+# (04/04/2017) Class
+# Create a class to access the coordinates later for 3D and 2D
 class coordinates():
     def __init__(self):
         # Express the mesh in the cartesian system.
@@ -176,31 +179,28 @@ print(len(ydat))
 print(len(coor2D.X))
 print(len(coor2D.Y))
 '''
-
+#(04/26/2017) Plot 2D density distribution
 #histogram definition
-xyrange = [[-300,300],[-300,300]] # data range
-bins = [150,150] # number of bins
+xyrange = [[-500,500],[-500,500]] # data range
+bins = [250,250] # number of bins
 thresh = 3  #density threshold
-
-
-# histogram the data
+#histogram the data
 hh, locx, locy = scipy.histogram2d(coor2D.X, coor2D.Y, range=xyrange, bins=bins)
 posx = np.digitize(coor2D.X, locx)
 posy = np.digitize(coor2D.Y, locy)
-
 #select points within the histogram
 ind = (posx > 0) & (posx <= bins[0]) & (posy > 0) & (posy <= bins[1])
 hhsub = hh[posx[ind] - 1, posy[ind] - 1] # values of the histogram where the points are
 xdat1 = coor2D.X[ind][hhsub < thresh] # low density points
 ydat1 = coor2D.Y[ind][hhsub < thresh]
 hh[hh < thresh] = np.nan # fill the areas with low density by NaNs
-
+# Make the plot
 plt.imshow(np.flipud(hh.T),cmap='jet',extent=np.array(xyrange).flatten(), interpolation='none', origin='upper')
 plt.colorbar()
 plt.plot(xdat1, ydat1, '.',color='darkblue')
-plt.title('Density Distribution of Stars',fontsize=20)
-plt.xlabel('Position X [pc]')
-plt.ylabel('Position Y [pc]')
+#plt.title('Density Distribution of Stars (with High Signal to Noise Ratio)', fontsize=20)
+plt.xlabel('Position X [pc]', fontsize = 16)
+plt.ylabel('Position Y [pc]', fontsize = 16)
 plt.show()
 
 
