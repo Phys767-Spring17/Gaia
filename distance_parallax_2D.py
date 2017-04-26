@@ -11,6 +11,8 @@ import sys, os, time, string, math, subprocess
 from scipy.stats import gaussian_kde, stats
 import seaborn as sns
 sns.set(color_codes=True)
+import numpy.random
+import scipy
 
 #================ input data using class ===================
 
@@ -61,7 +63,7 @@ def transverse_velocity(number):
         return 'Transverse velocity bigger than 0'
     elif v < 0:
         return 'Transverse velocity less than 0'
-    elif v = 0:
+    elif v == 0:
         return 'Transverse velocity is 0'
 
 #================ plot distance, velocity ===================
@@ -160,6 +162,47 @@ print ("Max value on X: ", coor2D.X.max())
 print ("Min value on X: ", coor2D.X.min())
 print ("Max value on Y: ", coor2D.Y.max())
 print ("Min value on Y: ", coor2D.Y.min())
+
+
+'''
+#check how the data set arrays look like
+#data definition
+N = 1e5;
+xdat, ydat = np.random.normal(size=N), np.random.normal(1, 0.6, size=N)
+print(xdat)
+print(ydat)
+print(len(xdat))
+print(len(ydat))
+print(len(coor2D.X))
+print(len(coor2D.Y))
+'''
+
+#histogram definition
+xyrange = [[-300,300],[-300,300]] # data range
+bins = [150,150] # number of bins
+thresh = 3  #density threshold
+
+
+# histogram the data
+hh, locx, locy = scipy.histogram2d(coor2D.X, coor2D.Y, range=xyrange, bins=bins)
+posx = np.digitize(coor2D.X, locx)
+posy = np.digitize(coor2D.Y, locy)
+
+#select points within the histogram
+ind = (posx > 0) & (posx <= bins[0]) & (posy > 0) & (posy <= bins[1])
+hhsub = hh[posx[ind] - 1, posy[ind] - 1] # values of the histogram where the points are
+xdat1 = coor2D.X[ind][hhsub < thresh] # low density points
+ydat1 = coor2D.Y[ind][hhsub < thresh]
+hh[hh < thresh] = np.nan # fill the areas with low density by NaNs
+
+plt.imshow(np.flipud(hh.T),cmap='jet',extent=np.array(xyrange).flatten(), interpolation='none', origin='upper')
+plt.colorbar()
+plt.plot(xdat1, ydat1, '.',color='darkblue')
+plt.title('Density Distribution of Stars',fontsize=20)
+plt.xlabel('Position X [pc]')
+plt.ylabel('Position Y [pc]')
+plt.show()
+
 
 '''
 colorscale = ['#7A4579', '#D56073', 'rgb(236,158,105)', (1, 1, 0.2), (0.98,0.98,0.98)]
