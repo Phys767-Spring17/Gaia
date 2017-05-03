@@ -41,25 +41,23 @@ transv_ra=4.74*pmra[highSNindices]*distance*10**3 #m/s
 transv_dec=4.74*pmdec[highSNindices]*distance*10**3 #m/s
 
 transverse_vsqared=transv_ra**2+transv_dec**2
-transverse_v=transverse_vsqared**(.5)
+transverse_v=transverse_vsqared**(.5) #m/s
 
-#================ plot distance, velocity ===================
-'''
-#plotting
-plt.hist(distance,bins=100)
-plt.plot(distance,transverse_v,marker='.',linestyle="None", alpha=.5)
+#================ plot velocity ===================
 
-limit on transverse velocity
+#Plot histogram of transverse velocity distribution
+plt.hist(transverse_v,bins=500)
+
+#limit on transverse velocity
 plt.xlim([0,150000])
 
-#lables for distance
-plt.xlabel('distance[kpc]')
+#lables for axis
+plt.xlabel('Transverse Velocity [m/s]')
 plt.ylabel('Number')
-plt.title('Distribution of Distance Based on Parallax')
+plt.title('Distribution of Transverse Velocity')
 
 plt.show()
-plt.savefig('highsnVelocities.png')
-'''
+
 
 #================ visualize stars' position in 3D plot of all valid data ===================
 
@@ -81,37 +79,3 @@ print ("Max value on Y: ", Y.max())
 print ("Min value on Y: ", Y.min())
 print ("Max value on Z: ", Z.max())
 print ("Min value on Z: ", Z.min())
-
-
-#================ visualize stars' density with color in 3D plot of all valid data ===================
-
-#plot with ra, dec, and distance
-fig=plt.figure()
-ax=fig.add_subplot(111,projection='3d')
-
-#calculate the point density
-#XYZ = np.vstack([X,Y,Z])
-#C = gaussian_kde(XYZ)(XYZ)(XYZ)
-
-#fig, ax = plt.subplots()
-#plt.scatter(X, Y, Z, c=C, s=100, edgecolor='')
-#plt.show()
-
-#ax.set_xlim(-10**5,10**5)
-#ax.set_ylim(-10**5,10**5)
-#ax.set_zlim(-10**5,10**5)
-
-
-#plt.scatter(X,Y,Z,marker=".")
-# The above line Produces a disk instead of sphere. With high signal to noise data, far away stars are not included,
-# and the scale is not big enough to show the shape of the Milky Way (diameter 30kpc, thickness 0.3kpc)
-
-ax.scatter(X,Y,Z, 'ob', alpha=0.05, lw=0)
-# The above line works almost as ax.plot(X,Y,Z, 'ob', alpha=0.05, lw=0) or plt.plot(X,Y,Z, 'ob', alpha=0.05, lw=0)
-
-ax.set_xlabel('Distance X [pc]')
-ax.set_ylabel('Distance Y [pc]')
-ax.set_zlabel('Distance Z [pc]')
-plt.title('Distribution of All Valid Data')
-
-plt.show()

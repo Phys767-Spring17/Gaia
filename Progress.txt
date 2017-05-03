@@ -1,0 +1,55 @@
+# Gaia
+Here is my progress through the project in Spring 2017 Semester. I created
+separate files for each step, but they are all shown in the final code
+"velocity_distribution_2D.py", which is the only one you need to read for code
+review.
+
+This is a project with recently released Gaia data, from which I visualize the
+density and velocity of stars detected by Gaia.
+
+Through the project I learned a lot about how to program in Python, as well as
+how to use GitHub to record and communicate my work.
+
+#First Part - High Signal to Noise Selection (02/01/2017 - 02/28/2017)
+ - Code: high_signal_to_noise.py
+First part of my study in this class is focused on studying Python. After I got
+familiar with it, I worked on selecting data from 'tgas-source.fits', which is
+a data file of Gaia. The selecting standard is based on the ratio of data's signal
+to noise, and it is set to be higher than 16 so that I can have data with comparatively
+low noise.
+
+#Second Part - Velocity Distribution (03/01/2017 - 03/14/2017)
+ - Code: velocity_distribution_value.py
+ - Plot: velocity_distribution_value.png
+For the stars with high signal-to-noise ratio, I calculated their individual
+transverse velocities using distance, proper motion right ascension and declination.
+
+#Third Part - Pytest (03/15/2017 - 04/12/2017) (To be finished)
+ - Code: test_transverse_v.py, .travis.yml, __init__py
+ From course lecture, I learned how to do pytest to check my results. There is another
+ repository 'Phys767-Spring17/pytest_Zhiyan' to practice pytest. The pytest in this
+ project is to check whether the calculated velocity has only positive values, in case
+ mistakes accidentally happen.
+
+#Fourth Part - 3D Plot and Class (03/15/2017 - 04/12/2017)
+ - Code: density_distribution_3D.py
+ - Plot: density_distribution_3D.npg
+ From course lecture, I learned how to use class to access data. It's implemented in
+ my code.
+ In the meantime, I plotted the position of the selected stars and all stars in 3D.
+ However, as you can see the plot, since it's a bulb filled with points, it's not helpful
+ to visualize the characteristics of these stars. So I decided to only plot them in a 2D
+ plane, which has declination=0.
+
+ #Fifth Part - 2D Plot of Density Distribution (04/12/2017 - 04/26/2017)
+ - Code: density_distribution_2D.py, density_distribution_2D_all_data.py
+ - Plot: density_distribution_2D.npg, density_distribution_2D_all_data.png
+ In the plots, you can see the density distribution of stars detected by Gaia. Two plots
+ show separately the one with high signal to noise ratio and the one with all data. They
+ are both denser in the center, where we and detectors are.
+
+ #Sixth Part - 2D Plot of Velocity Distribution (04/26 - 05/19/2017) (To be finished)
+ - Code: velocity_distribution_2D.py
+ - Plot: velocity_distribution_2D.png
+ The plot shows the magnitude of transverse velocity for all selected stars with high
+ signal to noise ratio.
