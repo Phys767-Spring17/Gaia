@@ -1,19 +1,20 @@
-import astropy
 import numpy as np
 import matplotlib.pyplot as plt
+import astropy.io.fits as fits
+import seaborn as sns
+sns.set(color_codes=True)
+import scipy
+import astropy
+from matplotlib.colors import LogNorm
 import plotly
 import plotly.plotly as py
 import plotly.figure_factory as ff
 import pandas as pd
 from mpl_toolkits.mplot3d import Axes3D
-import astropy.io.fits as fits
 import sys, os, time, string, math, subprocess
 from scipy.stats import gaussian_kde, stats
-import seaborn as sns
-sns.set(color_codes=True)
 import numpy.random
-import scipy
-
+from scipy.interpolate import interp2d
 #================ input data using class ===================
 
 class DATA(object):
@@ -26,7 +27,7 @@ class DATA(object):
 # ================ select data with low noise ===================
 
 data1=DATA()
-#chose parallax data
+#choose parallax data
 parallax=data1.data_list.data['parallax'] #in mas(milliarcsecond) = 0.001 arcsecond = 1/3600000 degree
 parallax_error=data1.data_list.data['parallax_error'] #error
 
@@ -35,9 +36,6 @@ ratio=parallax/parallax_error
 
 #select data that we want
 highSNindices = ratio > 16. #The ones with high signal to noise
-
-#locations of data we want
-#np.where(highSNindices)
 
 #distances we want from valid data
 distance=1./parallax[highSNindices] #in Kpc = 1000 parsecs = 3262 light-years

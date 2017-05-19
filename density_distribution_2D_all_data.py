@@ -195,7 +195,7 @@ xdat1 = coor2D.X[ind][hhsub < thresh] # low density points
 ydat1 = coor2D.Y[ind][hhsub < thresh]
 hh[hh < thresh] = np.nan # fill the areas with low density by NaNs
 # Make the plot
-plt.imshow(np.flipud(hh.T),cmap='jet',extent=np.array(xyrange).flatten(), interpolation='none', origin='upper')
+plt.imshow(np.flipud(hh.T),cmap='plasma',extent=np.array(xyrange).flatten(), interpolation='none', origin='upper')
 clb=plt.colorbar()
 #clb.ax.yaxis.tick_right()
 clb.ax.set_yticklabels(['20','40','60','80','100'],fontsize=10)
