@@ -12,3 +12,5 @@ There are three plots showing the result of my work:
 "velocity_distribution_value.png", a histogram distribution for the transverse velocity's magnitude.
 "density_distribution_2D.png", 2D density distribution for the stars, in xy-plane.
 "velocity_distribution_2D.png", 2D velosity distribution for the stars, in xy-plane.
+
+Conclusion: The plots show that even though there is a high peak for velocity's magnitude,transverse velocities of the stars do not depend on their (x,y) coordinates.
