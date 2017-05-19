@@ -43,6 +43,7 @@ transverse_v = transverse_vsqared**(.5)
 
 # Define the function "transverse_velocity()" for test on Travis
 def transverse_velocity(number):
+
     v=transverse_v[number]
 
     if v > 0:
@@ -51,6 +52,8 @@ def transverse_velocity(number):
         return 'Transverse velocity less than 0'
     elif v == 0:
         return 'Transverse velocity is 0'
+    else:
+        return v
 
 # ================ Plot velocity magnitude distribution ===================
 

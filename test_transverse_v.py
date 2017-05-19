@@ -1,7 +1,7 @@
 #file located in Gaia/
 #filename = test_transverse_v.py
 
-from complete_code_velocity_distribution_2D.py import transverse_velocity
+from complete_code_velocity_distribution_2D import transverse_velocity
 import pytest
 
 #assert checks true/false
