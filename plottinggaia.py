@@ -102,9 +102,9 @@ def plot_3d(highSNindices,distance):
 
 	transv_ra=4.74*propermotion_ra[highSNindices]*distance #km/s
 	transv_dec=4.74*propermotion_dec[highSNindices]*distance #km/s
-	v_z=np.zeros_like(z_cord)
+	v_r=np.zeros_like(z_cord) #setting r component of velocity to zero because you can only get projected velocity on sky
 
-	quiver3d(x_cord, y_cord, z_cord, transv_ra, transv_dec,v_z)
+	quiver3d(x_cord, y_cord, z_cord, transv_ra, transv_dec,v_r)
 	show()
 
 
@@ -125,6 +125,10 @@ if __name__ == "__main__":
 		print('Not a valid choice. Please try again.')
 		SN_ratio=input('Enter a SN ratio cutoff (decimal): ')
 		test_imput=type(SN_ratio) is float
+
+
+
+#Reading in data and calculating distances
 
 
 	#Parallax data
