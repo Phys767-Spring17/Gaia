@@ -3,8 +3,7 @@ import astropy
 import numpy as np
 import matplotlib.pyplot as plt
 import astropy.io.fits as fits
-from mpl_toolkits.mplot3d import Axes3D
-import sys, os, time, string, commands, subprocess
+from mayavi.mlab import *
 
 #read in data from Gaia catalog
 file=fits.open('tgas-source.fits')
@@ -22,12 +21,12 @@ parallax=data_list.data['parallax'] #in mas
 parallax_error=data_list.data['parallax_error'] #error
 
 #proper motion
-#propermotion_ra=data_list.data['pmra']
-#propermotion_dec=data_list.data['pmdec']
+propermotion_ra=data_list.data['pmra']
+propermotion_dec=data_list.data['pmdec']
 
 #RA and DEC
-#ra=data_list.data['ra']
-#dec=data_list.data['dec']
+ra=data_list.data['ra']
+dec=data_list.data['dec']
 
 
 #magnitudes
@@ -40,7 +39,7 @@ k_band=data_list_2.data['k_mag']
 ratio=parallax/parallax_error
 
 #select high SN data that we want
-highSNindices = ratio > 64.
+highSNindices = ratio > 128.
 
 #locations of data we want
 #np.where(highSNindices)
@@ -50,11 +49,11 @@ distance=1./parallax[highSNindices] #in Kpc
 
 #Calculate transverse velocity in RA and DEC then in real space
 
-#transv_ra=4.74*propermotion_ra[highSNindices]*distance #km/s
-#transv_dec=4.74*propermotion_dec[highSNindices]*distance #km/s
+transv_ra=4.74*propermotion_ra[highSNindices]*distance #km/s
+transv_dec=4.74*propermotion_dec[highSNindices]*distance #km/s
 
-#transverse_vsqared=transv_ra**2+transv_dec**2
-#transverse_v=transverse_vsqared**(.5)
+transverse_vsqared=transv_ra**2+transv_dec**2
+transverse_v=transverse_vsqared**(.5)
 
 
 
@@ -76,6 +75,18 @@ distance_pc=distance[equalzero]*10**3.
 
 absolute_mag=j_select-(5.*(np.log10(distance_pc)-1))
 
+ra_selected=ra[highSNindices][equalzero]
+dec_selected=dec[highSNindices][equalzero]
+
+#conversion
+x_cord=distance_pc*np.sin(dec_selected)*np.cos(ra_selected)
+y_cord=distance_pc*np.sin(dec_selected)*np.sin(ra_selected)
+z_cord=distance_pc*np.cos(dec_selected)
+
+v_z=np.zeros_like(z_cord)
+
+quiver3d(x_cord, y_cord, z_cord, transv_ra[equalzero], transv_dec[equalzero],v_z)
+show()
 #plotting
 
 #H-R diagram
@@ -92,7 +103,10 @@ ax1.set_ylabel("Absolute Magnitude, J")
 ax1.set_xlabel("J-K")
 plt.show()
 
-import pdb; pdb.set_trace()
+
+
+
+#import pdb; pdb.set_trace()
 
 #distance distribution
 #plt.hist(distance,bins=100,log=True)
