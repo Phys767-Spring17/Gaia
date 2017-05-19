@@ -162,4 +162,3 @@ clb.ax.yaxis.set_label_coords(3.8, 0.5)
 plt.xlabel('Position X [pc]', fontsize=16)
 plt.ylabel('Position Y [pc]', fontsize=16)
 plt.show()
-
