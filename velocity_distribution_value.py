@@ -57,6 +57,7 @@ def transverse_velocity(number):
     else:
         return v
 
+'''
 #================ plot velocity ===================
 
 #Plot histogram of transverse velocity distribution
@@ -93,3 +94,4 @@ print ("Max value on Y: ", Y.max())
 print ("Min value on Y: ", Y.min())
 print ("Max value on Z: ", Z.max())
 print ("Min value on Z: ", Z.min())
+'''
