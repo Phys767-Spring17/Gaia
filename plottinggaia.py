@@ -49,7 +49,9 @@ def h_r_plot(highSNindices,distance):
 	ax1.invert_yaxis()
 	ax1.set_ylabel("Absolute Magnitude, J")
 	ax1.set_xlabel("J-K")
+	plt.savefig('H-R Diagram with Gaia data.png')
 	plt.show()
+
 
 #Velocity distribution plot
 
@@ -69,6 +71,7 @@ def velocity_plot(highSNindices,distance):
 	plt.hist(transverse_v,bins=100,log=False,range=[min(transverse_v),max(transverse_v)],histtype='stepfilled')
 	plt.ylabel("Number of Stars")
 	plt.xlabel("Velcity [km/s]")
+	plt.savefig("Relative Velocity Distribution.png")
 	plt.show()
 
 
