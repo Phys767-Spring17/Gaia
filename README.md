@@ -14,3 +14,13 @@ There are three plots showing the result of my work:
 "velocity_distribution_2D.png", 2D velosity distribution for the stars, in xy-plane.
 
 Conclusion: The plots show that even though there is a high peak for velocity's magnitude,transverse velocities of the stars do not depend on their (x,y) coordinates.
+=======
+Project using data from Gaia's first data release
+
+Project is contained in the file called plottinggaia.py
+
+The code contained takes the data from the first Gaia release and selects the highest SN objects as chosen by the user. This data set can then be plotted in a couple of different ways. The current choices are:
+
+1. Relative Velocity distribution
+2. H-R diagram
+3. 3D position-velocity map (Using Mayavi)
