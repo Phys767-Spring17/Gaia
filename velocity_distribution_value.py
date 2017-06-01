@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import astropy.io.fits as fits
 import sys, os, time, string, math, subprocess
+from scipy.stats import gaussian_kde
 
 #================ input and select data with low noise ===================
 
@@ -11,12 +12,14 @@ import sys, os, time, string, math, subprocess
 file=fits.open('tgas-source.fits')
 data_list=file[1]
 
+
 #chose parallax data
 parallax=data_list.data['parallax'] #in mas(milliarcsecond) = 0.001 arcsecond = 1/3600000 degree
 parallax_error=data_list.data['parallax_error'] #error
 
 #calculate ratio
 ratio=parallax/parallax_error
+
 
 #select data that we want
 highSNindices = ratio > 16. #The ones with high signal to noise
@@ -38,25 +41,38 @@ transv_ra=4.74*pmra[highSNindices]*distance*10**3 #m/s
 transv_dec=4.74*pmdec[highSNindices]*distance*10**3 #m/s
 
 transverse_vsqared=transv_ra**2+transv_dec**2
-transverse_v=transverse_vsqared**(.5)
+transverse_v=transverse_vsqared**(.5) #m/s
 
-#================ plot distance, velocity ===================
+# Define the function "transverse_velocity()" for test on Travis
+def transverse_velocity(number):
+
+    v=transverse_v[number]
+
+    if v > 0:
+        return 'Transverse velocity bigger than 0'
+    elif v < 0:
+        return 'Transverse velocity less than 0'
+    elif v == 0:
+        return 'Transverse velocity is 0'
+    else:
+        return v
+
 '''
-#plotting
-plt.hist(distance,bins=100)
-plt.plot(distance,transverse_v,marker='.',linestyle="None", alpha=.5)
+#================ plot velocity ===================
 
-limit on transverse velocity
+#Plot histogram of transverse velocity distribution
+plt.hist(transverse_v,bins=500)
+
+#limit on transverse velocity
 plt.xlim([0,150000])
 
-#lables for distance
-plt.xlabel('distance[kpc]')
+#lables for axis
+plt.xlabel('Transverse Velocity [m/s]')
 plt.ylabel('Number')
-plt.title('Distribution of Distance Based on Parallax')
+plt.title('Distribution of Transverse Velocity')
 
 plt.show()
-plt.savefig('highsnVelocities.png')
-'''
+
 
 #================ visualize stars' position in 3D plot of all valid data ===================
 
@@ -66,31 +82,16 @@ declination=data_list.data['dec'] #in degree
 ra=right_ascension[highSNindices]*(3.14/180) #in radian
 dec=declination[highSNindices]*(3.14/180) #in radian
 
-#plot with ra, dec, and distance
-fig=plt.figure()
-ax=fig.add_subplot(111,projection='3d')
-
 # Express the mesh in the cartesian system.
 X=distance*1000*np.cos(dec)*np.cos(ra) #in parsec = 3.262 light-years
 Y=distance*1000*np.cos(dec)*np.sin(ra) #in parsec = 3.262 light-years
 Z=distance*1000*np.sin(dec) #in parsec = 3.262 light-years
 
 
-print ("Max value on X: ", max(X))
-print ("Min value on X: ", min(X))
-print ("Max value on Y: ", max(Y))
-print ("Min value on Y: ", min(Y))
-print ("Max value on Z: ", max(Z))
-print ("Min value on Z: ", min(Z))
-
-ax.set_zlim(-10**-10,10**-10)
-
-plt.scatter(X,Y,Z,marker=".")
-
-ax.set_xlabel('Distance X')
-ax.set_ylabel('Distance Y')
-ax.set_zlabel('Distance Z')
-plt.title('Distribution of All Valid Data')
-
-plt.show()
-plt.savefig('3D Distribution.png')
+print ("Max value on X: ", X.max())
+print ("Min value on X: ", X.min())
+print ("Max value on Y: ", Y.max())
+print ("Min value on Y: ", Y.min())
+print ("Max value on Z: ", Z.max())
+print ("Min value on Z: ", Z.min())
+'''
